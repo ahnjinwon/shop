@@ -1,13 +1,14 @@
-package com.example.shop.controller;
+package com.example.shop.member.presentation;
 
 import com.example.shop.common.ResponseEntity;
-import com.example.shop.member.Member;
-import com.example.shop.member.MemberRepository;
-import com.example.shop.member.MemberRequest;
-import com.example.shop.service.MemberService;
+import com.example.shop.member.application.dto.MemberInfo;
+import com.example.shop.member.domain.Member;
+import com.example.shop.member.presentation.dto.MemberRequest;
+import com.example.shop.member.application.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public class MemberController {
             description = "public.member 테이블에 저장된 모든 회원을 조회한다."
     )
     @GetMapping
-    public ResponseEntity<List<Member>> findAll() {
-        return memberService.findAllMembers();
+    public ResponseEntity<List<MemberInfo>> findAll(Pageable pageable) {
+        return memberService.findAllMembers(pageable);
     }
 
     @Operation(
@@ -35,16 +36,16 @@ public class MemberController {
             description = "요청으로 받은 회원 정보를 public.member 테이블에 저장한다."
     )
     @PostMapping
-    public ResponseEntity<Member> create(@RequestBody MemberRequest request) {
-        return memberService.createMember(request);
+    public ResponseEntity<MemberInfo> create(@RequestBody MemberRequest request) {
+        return memberService.createMember(request.toCommand());
     }
     @Operation(
             summary = "회원 수정",
             description = "요청으로 받은 회원 정보를 public.member 테이블에 수정한다."
     )
     @PutMapping("{id}")
-    public ResponseEntity<Member> update(@RequestBody MemberRequest request, @PathVariable String id) {
-        return memberService.updateMember(request, id);
+    public ResponseEntity<MemberInfo> update(@RequestBody MemberRequest request, @PathVariable String id) {
+        return memberService.updateMember(request.toCommand(), id);
     }
     @Operation(
             summary = "회원 정보 삭제",

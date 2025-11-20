@@ -1,13 +1,10 @@
-package com.example.shop.member;
+package com.example.shop.member.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Schema(description = "회원 정보")
@@ -62,7 +59,7 @@ public class Member {
 
     public Member() {}
 
-    public Member(UUID id,
+    private Member(UUID id,
                   String email,
                   String name,
                   String password,
@@ -78,14 +75,22 @@ public class Member {
         this.flag = flag;
     }
 
-    public Member(String id,
-                  String email,
-                  String name,
-                  String password,
-                  String phone,
-                  String saltKey,
-                  String flag) {
-        this.id = UUID.fromString(id);
+
+    public static Member create(String email,
+                                String name,
+                                String password,
+                                String phone,
+                                String saltKey,
+                                String flag){
+        return new Member(UUID.randomUUID(), email, name, password, phone, saltKey, flag);
+    }
+
+    public void updateInformation(String email,
+                                  String name,
+                                  String password,
+                                  String phone,
+                                  String saltKey,
+                                  String flag){
         this.email = email;
         this.name = name;
         this.password = password;

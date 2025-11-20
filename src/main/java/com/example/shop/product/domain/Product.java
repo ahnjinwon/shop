@@ -15,6 +15,9 @@ public class Product {
     @Id
     private UUID id;
 
+    @Column(name = "seller_id", nullable = false)
+    private UUID sellerId;
+
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -46,6 +49,7 @@ public class Product {
     }
 
     private Product(UUID id,
+                    UUID sellerId,
                     String name,
                     String description,
                     BigDecimal price,
@@ -59,13 +63,14 @@ public class Product {
         this.status = status;
     }
 
-    public static Product create(String name,
+    public static Product create(UUID sellerId,
+                                 String name,
                                  String description,
                                  BigDecimal price,
                                  Integer stock,
                                  String status,
                                  UUID creatorId) {
-        Product product = new Product(UUID.randomUUID(), name, description, price, stock, status);
+        Product product = new Product(UUID.randomUUID(), sellerId, name, description, price, stock, status);
         product.regId = creatorId;
         product.modifyId = creatorId;
         return product;

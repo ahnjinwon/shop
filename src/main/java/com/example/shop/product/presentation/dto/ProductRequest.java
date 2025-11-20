@@ -9,6 +9,7 @@ import java.util.UUID;
  * 제품 API에서 쓰이는 요청 DTO.
  */
 public record ProductRequest(
+        UUID sellerId,
         String name,
         String description,
         BigDecimal price,
@@ -19,6 +20,6 @@ public record ProductRequest(
 
     public ProductCommand toCommand() {
         UUID operator = operatorId != null ? UUID.fromString(operatorId) : null;
-        return new ProductCommand(name, description, price, stock, status, operator);
+        return new ProductCommand(sellerId, name, description, price, stock, status, operator);
     }
 }

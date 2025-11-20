@@ -7,6 +7,7 @@ import java.util.UUID;
  * 제품 생성/수정 use-case에 필요한 입력 데이터를 묶는 명령 DTO.
  */
 public record ProductCommand(
+        UUID sellerId,
         String name,
         String description,
         BigDecimal price,

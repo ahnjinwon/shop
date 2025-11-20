@@ -56,6 +56,7 @@ public class Product {
                     Integer stock,
                     String status) {
         this.id = id;
+        this.sellerId = sellerId;
         this.name = name;
         this.description = description;
         this.price = price;

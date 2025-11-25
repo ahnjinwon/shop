@@ -36,3 +36,6 @@ management:
 
 server:
   port: 0
+
+apigateway:
+  host: http://localhost:8000

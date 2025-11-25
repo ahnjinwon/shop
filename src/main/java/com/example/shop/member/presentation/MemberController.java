@@ -44,7 +44,7 @@ public class MemberController {
             description = "요청으로 받은 회원 정보를 public.member 테이블에 수정한다."
     )
     @PutMapping("{id}")
-    public ResponseEntity<MemberInfo> update(@RequestBody MemberRequest request, @PathVariable String id) {
+    public ResponseEntity<MemberInfo> update(@RequestBody MemberRequest request, @PathVariable("id") String id) {
         return memberService.updateMember(request.toCommand(), id);
     }
     @Operation(
@@ -52,7 +52,7 @@ public class MemberController {
             description = "요청으로 받은 회원 정보를 public.member 테이블에서 삭제한다."
     )
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) {
+    public ResponseEntity<String> delete(@PathVariable("id") String id) {
         return memberService.deleteMember(id);
     }
 

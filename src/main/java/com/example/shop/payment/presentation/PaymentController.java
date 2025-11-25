@@ -2,7 +2,9 @@ package com.example.shop.payment.presentation;
 
 import com.example.shop.common.ResponseEntity;
 import com.example.shop.payment.application.PaymentService;
+import com.example.shop.payment.application.dto.PaymentFailureInfo;
 import com.example.shop.payment.application.dto.PaymentInfo;
+import com.example.shop.payment.presentation.dto.PaymentFailRequest;
 import com.example.shop.payment.presentation.dto.PaymentRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,9 @@ public class PaymentController {
         return paymentService.confirm(request.toCommand());
     }
 
-//    @Operation(summary = "결제 실패 기록", description = "토스 결제 실패 정보를 저장한다.")
-//    @PostMapping("/fail")
-//    public ResponseEntity<PaymentFailureInfo> fail(@RequestBody PaymentFailRequest request) {
-//        return paymentService.recordFailure(request.toCommand());
-//    }
+    @Operation(summary = "결제 실패 기록", description = "토스 결제 실패 정보를 저장한다.")
+    @PostMapping("/fail")
+    public ResponseEntity<PaymentFailureInfo> fail(@RequestBody PaymentFailRequest request) {
+        return paymentService.recordFailure(request.toCommand());
+    }
 }

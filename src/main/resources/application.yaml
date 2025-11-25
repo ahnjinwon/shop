@@ -1,32 +1,38 @@
 spring:
   application:
-    name: shop
-  datasource:
-    # Postgres 서버 타임존을 서울(KST)로 맞추기 위해 옵션 추가
-    url: jdbc:postgresql://localhost:5432/shop?currentSchema=public&options=-c%20TimeZone=Asia/Seoul
-    driver-class-name: org.postgresql.Driver
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-  jackson:
-    time-zone: Asia/Seoul
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        jdbc:
-          time_zone: Asia/Seoul
+    name: shop-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: default
+  cloud:
+    config:
+      fail-fast: true
+
+# 로컬 개발용 단일 노드 카프카 브로커
+services:
+  kafka:
+    image: apache/kafka:4.1.1
+    container_name: shop-kafka
+    ports:
+      # 호스트 29092 -> 컨테이너 PLAINTEXT_HOST
+      - "29092:29092"
+kafka:
+  # 로컬 도커 브로커 포트
+  bootstrap-servers: localhost:29092
+  topic:
+    # 주문 이벤트를 주고받는 토픽 이름
+    async-orders: shop.async-orders.v1
+  consumer:
+    # 샘플 컨슈머 그룹
+    group-id: shop-async-consumer
+
+# config server actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, prometheus
 
 server:
-  port: 8081
-
-api:
-  v1: /api/v1
-
-payment:
-  toss:
-    secret-key: ${TOSS_SECRET_KEY}
-    success-url:
-    fail-url:
+  port: 0

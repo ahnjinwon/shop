@@ -50,7 +50,7 @@ public class Member {
     private LocalDateTime modifyDt;
 
     @Schema(description = "비밀번호 salt", example = "Ab12Cd34Ef56Gh")
-    @Column(name = "saltkey", nullable = false, length = 14)
+    @Column(name = "saltkey", nullable = false, length = 100)
     private String saltKey;
 
     @Schema(description = "회원 상태 플래그", example = "Y")

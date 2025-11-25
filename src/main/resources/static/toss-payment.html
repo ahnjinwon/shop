@@ -50,6 +50,7 @@
             const clientKey = 'test_ck_0RnYX2w532qpnn7EPAAN8NeyqApQ'; // 테스트 클라이언트 키
             const tossPayments = window.TossPayments(clientKey);
             const amount = 1000;
+            const orderId = 1111222;
 
             document.getElementById('pay-button').addEventListener('click', async function () {
 <!--                const orderId = await createOrder();-->
@@ -58,7 +59,7 @@
 <!--                }-->
                 tossPayments.requestPayment('간편결제', {
                     company: '토스페이',
-                    orderId:1111222,
+                    orderId,
                     amount,
                     orderName: '테스트 상품',
                     successUrl: 'http://localhost:8081/payments/success.html',

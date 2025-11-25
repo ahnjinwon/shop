@@ -1,0 +1,20 @@
+# 로컬 개발용 단일 노드 카프카 브로커
+services:
+  kafka:
+    image: apache/kafka:4.1.1
+    container_name: shop-kafka
+    ports:
+      # 호스트 29092 -> 컨테이너 PLAINTEXT_HOST
+      - "29092:29092"
+    environment:
+      # KRaft 모드(컨트롤러+브로커) 설정
+      - KAFKA_NODE_ID=0
+      - KAFKA_PROCESS_ROLES=controller,broker
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=0@shop-kafka:29093
+      # 내부/외부 리스너를 분리하여 애플리케이션이 localhost:29092로 접근할 수 있게 한다.
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29093,PLAINTEXT_HOST://:29092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://shop-kafka:9092,PLAINTEXT_HOST://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_LOG_DIRS=/var/lib/kafka/data
